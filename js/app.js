@@ -72,7 +72,7 @@
   /* ── Init ── */
   function init() {
     const allCards = allPokemon.flatMap(p => p.cards).concat(trainerCards);
-    const byTag = { IR: 0, SIR: 0, TG: 0, SR: 0, SUR: 0, CC: 0, UR: 0, HR: 0, ACE: 0 };
+    const byTag = { IR: 0, SIR: 0, TG: 0, SR: 0, SUR: 0, CC: 0, UR: 0, HR: 0, ACE: 0, RU: 0, RR: 0, RS: 0 };
     allCards.forEach(c => { byTag[c.rarity] = (byTag[c.rarity] || 0) + 1; });
     const withCards = allPokemon.filter(p => p.cards.length > 0).length;
     statsText.innerHTML = `
@@ -80,10 +80,13 @@
       <span class="stat-ir">IR: ${byTag.IR}</span> ·
       <span class="stat-sir">SIR: ${byTag.SIR}</span> ·
       <span class="stat-ur">UR: ${byTag.UR}</span> ·
+      <span class="stat-ru">FA: ${byTag.RU}</span> ·
       <span class="stat-tg">TG: ${byTag.TG}</span> ·
       <span class="stat-sr">SR: ${byTag.SR}</span> ·
       <span class="stat-sur">SUR: ${byTag.SUR}</span> ·
       <span class="stat-hr">HR: ${byTag.HR}</span> ·
+      <span class="stat-rr">RR: ${byTag.RR}</span> ·
+      <span class="stat-rs">Secret: ${byTag.RS}</span> ·
       <span class="stat-ace">ACE: ${byTag.ACE}</span> ·
       <span class="stat-cc">CC: ${byTag.CC}</span> ·
       <strong>${withCards}</strong> von ${allPokemon.length} Pokémon
@@ -131,8 +134,8 @@
   }
 
   /* ── Rarity badge label ── */
-  const RARITY_LABEL = { IR: 'IR', SIR: 'SIR', TG: 'TG', SR: 'SR', SUR: 'SUR', CC: 'CC', UR: 'UR', HR: 'HR', ACE: 'ACE' };
-  const RARITY_CLASS = { IR: 'badge-ir', SIR: 'badge-sir', TG: 'badge-tg', SR: 'badge-sr', SUR: 'badge-sur', CC: 'badge-cc', UR: 'badge-ur', HR: 'badge-hr', ACE: 'badge-ace' };
+  const RARITY_LABEL = { IR: 'IR', SIR: 'SIR', TG: 'TG', SR: 'SR', SUR: 'SUR', CC: 'CC', UR: 'UR', HR: 'HR', ACE: 'ACE', RU: 'FA', RR: 'RR', RS: 'Secret' };
+  const RARITY_CLASS = { IR: 'badge-ir', SIR: 'badge-sir', TG: 'badge-tg', SR: 'badge-sr', SUR: 'badge-sur', CC: 'badge-cc', UR: 'badge-ur', HR: 'badge-hr', ACE: 'badge-ace', RU: 'badge-ru', RR: 'badge-rr', RS: 'badge-rs' };
 
   /* ── Build IR thumbnail HTML ── */
   function buildIRThumb(card) {
