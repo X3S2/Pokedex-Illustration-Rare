@@ -152,7 +152,7 @@
   function buildPokeEntry(poke, query) {
     const isMatch = matchesSearch(poke, query);
     const hasCards = poke.cards.length > 0;
-    const dimClass = query && !isMatch ? ' dimmed' : '';
+    const dimClass = query && !isMatch ? ' hidden' : '';
     const hlClass  = query && isMatch ? ' highlighted' : '';
 
     const cardsHtml = hasCards
@@ -175,7 +175,7 @@
   /* ── Build trainer entry HTML ── */
   function buildTrainerEntry(card, query) {
     const isMatch = matchesTrainer(card, query);
-    const dimClass = query && !isMatch ? ' dimmed' : '';
+    const dimClass = query && !isMatch ? ' hidden' : '';
     const hlClass  = query && isMatch  ? ' highlighted' : '';
     return `
       <div class="trainer-entry${dimClass}${hlClass}">
@@ -281,11 +281,20 @@
     /* Attach click handlers to all IR thumbs */
     attachCardClicks();
 
-    /* Auto-open first section if searching */
+    /* When searching: hide entire sections with no matches, open those with matches */
     if (query) {
       mainContent.querySelectorAll('details.gen-section').forEach(d => {
         const hasMatch = d.querySelector('.poke-entry.highlighted, .trainer-entry.highlighted');
-        d.open = !!hasMatch;
+        if (hasMatch) {
+          d.open = true;
+          d.classList.remove('hidden');
+        } else {
+          d.classList.add('hidden');
+        }
+      });
+    } else {
+      mainContent.querySelectorAll('details.gen-section').forEach(d => {
+        d.classList.remove('hidden');
       });
     }
   }
@@ -320,8 +329,6 @@
         break;
       }
     }
-
-    const deckshopSearch = `https://www.deckshop.de/search?q=${encodeURIComponent(card.name)}`;
 
     modalInner.innerHTML = `
       <img class="modal-card-img"
@@ -377,15 +384,6 @@
         <div class="pack-label">Zu finden in</div>
         <div class="pack-name">${esc(card.pack)}</div>
       </div>
-
-      <a href="${esc(deckshopSearch)}" target="_blank" rel="noopener noreferrer"
-         class="modal-btn modal-btn-primary">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-        </svg>
-        Auf deckshop.de kaufen
-      </a>
     `;
 
     modalOverlay.setAttribute('aria-hidden', 'false');
