@@ -139,14 +139,22 @@
     return `
       <div class="ir-thumb" data-card-id="${esc(card.id)}"
            title="${esc(card.name)} · ${esc(card.set_de)} [${tag}]">
-        <img src="${esc(card.img)}"
+        <img data-src="${esc(card.img)}"
+             src="images/placeholder.svg"
              alt="${esc(card.name)}"
-             loading="lazy"
              width="70"
              onerror="this.onerror=null;this.src='images/placeholder.svg'">
         <span class="ir-rarity-badge ${RARITY_CLASS[tag] || 'badge-ir'}">${tag}</span>
         <span class="ir-set-badge">${esc(card.set_de)}</span>
       </div>`;
+  }
+
+  /* ── Load images in a container (swap data-src → src) ── */
+  function loadSectionImages(container) {
+    container.querySelectorAll('img[data-src]').forEach(img => {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
   }
 
   /* ── Build placeholder HTML ── */
@@ -268,11 +276,19 @@
 
       mainContent.appendChild(section);
 
+      // Load images immediately if section is open, else defer to toggle
+      section.addEventListener('toggle', () => {
+        if (section.open) loadSectionImages(section);
+      });
+
       const body = section.querySelector('.gen-body');
       pokemonInGen.forEach(poke => {
         const html = buildPokeEntry(poke, query);
         if (html) body.insertAdjacentHTML('beforeend', html);
       });
+
+      // Load images for sections that start open (after cards are rendered)
+      if (section.open) loadSectionImages(section);
     });
 
     /* Trainer section */
@@ -303,10 +319,18 @@
 
         mainContent.appendChild(trainerSection);
 
+        // Load images immediately if section is open, else defer to toggle
+        trainerSection.addEventListener('toggle', () => {
+          if (trainerSection.open) loadSectionImages(trainerSection);
+        });
+
         const tbody = trainerSection.querySelector('.gen-body');
         visTrainersByRarity.forEach(card => {
           tbody.insertAdjacentHTML('beforeend', buildTrainerEntry(card, query));
         });
+
+        // Load images for sections that start open (after cards are rendered)
+        if (trainerSection.open) loadSectionImages(trainerSection);
       }
     }
 
