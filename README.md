@@ -25,7 +25,11 @@ Eine persönliche Referenzseite für Pokémon Sammelkartenspiel-Karten mit küns
 | HR | Hyper Rare | 80 |
 | ACE | ACE SPEC Rare | 33 |
 | CC | Classic Collection | 25 |
-| **Gesamt** | | **2802** |
+| AR | Amazing Rare | 9 |
+| RD | Radiant Rare | 15 |
+| RSH | Rare Shining | 16 |
+| SHG | Shiny GX (Hidden Fates) | 35 |
+| **Gesamt** | | **2877** |
 
 ## Daten
 - **719 von 1025 Pokémon** haben mindestens eine Karte
