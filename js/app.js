@@ -8,6 +8,7 @@
   let trainerCards = [];
   let generations = [];
   let currentGen = 'all';
+  let currentRarity = 'all';
   let searchQuery = '';
   let modalCard = null;
 
@@ -169,12 +170,19 @@
   /* ── Build single Pokémon entry HTML ── */
   function buildPokeEntry(poke, query) {
     const isMatch = matchesSearch(poke, query);
-    const hasCards = poke.cards.length > 0;
+    const visibleCards = currentRarity === 'all'
+      ? poke.cards
+      : poke.cards.filter(c => c.rarity === currentRarity);
+    const hasCards = visibleCards.length > 0;
+
+    // Hide if rarity filter active and no matching cards
+    if (currentRarity !== 'all' && !hasCards) return '';
+
     const dimClass = query && !isMatch ? ' hidden' : '';
     const hlClass  = query && isMatch ? ' highlighted' : '';
 
     const cardsHtml = hasCards
-      ? poke.cards.map(c => buildIRThumb(c)).join('')
+      ? visibleCards.map(c => buildIRThumb(c)).join('')
       : buildPlaceholder();
 
     return `
@@ -220,7 +228,14 @@
       if (genFilter === 'trainer') return; // rendered separately
 
       const pokemonInGen = allPokemon.filter(p => p.generation === gen.id);
-      const visible = pokemonInGen.filter(p => matchesSearch(p, query));
+      // With rarity filter: only count Pokémon that have a card of that rarity
+      const visibleByRarity = currentRarity === 'all'
+        ? pokemonInGen
+        : pokemonInGen.filter(p => p.cards.some(c => c.rarity === currentRarity));
+      const visible = visibleByRarity.filter(p => matchesSearch(p, query));
+
+      // Skip entire section if rarity filter hides all Pokémon
+      if (currentRarity !== 'all' && visibleByRarity.length === 0) return;
 
       const genInfo = GEN_COLORS[gen.id] || { cls: 'gen-1', name: '' };
       const withIRCount = pokemonInGen.filter(p => p.cards.length > 0).length;
@@ -232,8 +247,8 @@
       if (!query || visible.length > 0) section.open = (genFilter !== 'all');
 
       const visLabel = query
-        ? `${matchCount} Treffer / ${pokemonInGen.length} Pokémon · ${withIRCount} mit IR`
-        : `${pokemonInGen.length} Pokémon · ${withIRCount} mit IR`;
+        ? `${matchCount} Treffer / ${visibleByRarity.length} Pokémon · ${withIRCount} mit IR`
+        : `${visibleByRarity.length} Pokémon · ${withIRCount} mit IR`;
 
       section.innerHTML = `
         <summary class="gen-summary">
@@ -252,37 +267,44 @@
 
       const body = section.querySelector('.gen-body');
       pokemonInGen.forEach(poke => {
-        body.insertAdjacentHTML('beforeend', buildPokeEntry(poke, query));
+        const html = buildPokeEntry(poke, query);
+        if (html) body.insertAdjacentHTML('beforeend', html);
       });
     });
 
     /* Trainer section */
     if (genFilter === 'all' || genFilter === 'trainer') {
-      const visTrainers = trainerCards.filter(c => matchesTrainer(c, query));
-      const trainerSection = document.createElement('details');
-      trainerSection.className = 'gen-section';
-      trainerSection.id = 'gen-trainer';
-      if (genFilter === 'trainer' || !query) trainerSection.open = (genFilter !== 'all');
+      const visTrainersByRarity = currentRarity === 'all'
+        ? trainerCards
+        : trainerCards.filter(c => c.rarity === currentRarity);
+      const visTrainers = visTrainersByRarity.filter(c => matchesTrainer(c, query));
 
-      trainerSection.innerHTML = `
-        <summary class="gen-summary">
-          <div class="gen-summary-left">
-            <span class="gen-badge gen-tr">Trainer</span>
-            <span class="gen-title">Trainer-Karten</span>
-            <span class="gen-count">${query ? `${visTrainers.length} Treffer / ` : ''}${trainerCards.length} Karten</span>
-          </div>
-          <svg class="gen-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="m6 9 6 6 6-6"/>
-          </svg>
-        </summary>
-        <div class="gen-body" id="gen-body-trainer"></div>`;
+      if (visTrainersByRarity.length > 0 || currentRarity === 'all') {
+        const trainerSection = document.createElement('details');
+        trainerSection.className = 'gen-section';
+        trainerSection.id = 'gen-trainer';
+        if (genFilter === 'trainer' || !query) trainerSection.open = (genFilter !== 'all');
 
-      mainContent.appendChild(trainerSection);
+        trainerSection.innerHTML = `
+          <summary class="gen-summary">
+            <div class="gen-summary-left">
+              <span class="gen-badge gen-tr">Trainer</span>
+              <span class="gen-title">Trainer-Karten</span>
+              <span class="gen-count">${query ? `${visTrainers.length} Treffer / ` : ''}${visTrainersByRarity.length} Karten</span>
+            </div>
+            <svg class="gen-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="m6 9 6 6 6-6"/>
+            </svg>
+          </summary>
+          <div class="gen-body" id="gen-body-trainer"></div>`;
 
-      const tbody = trainerSection.querySelector('.gen-body');
-      trainerCards.forEach(card => {
-        tbody.insertAdjacentHTML('beforeend', buildTrainerEntry(card, query));
-      });
+        mainContent.appendChild(trainerSection);
+
+        const tbody = trainerSection.querySelector('.gen-body');
+        visTrainersByRarity.forEach(card => {
+          tbody.insertAdjacentHTML('beforeend', buildTrainerEntry(card, query));
+        });
+      }
     }
 
     if (mainContent.children.length === 0) {
@@ -292,7 +314,7 @@
             <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
           </svg>
           <h2>Keine Ergebnisse</h2>
-          <p>Für "<strong>${esc(query)}</strong>" wurden keine Pokémon gefunden.</p>
+          <p>Keine Karten gefunden${query ? ` für "<strong>${esc(query)}</strong>"` : ''}.</p>
         </div>`;
     }
 
@@ -352,7 +374,7 @@
       <img class="modal-card-img"
            src="${esc(card.img_hires || card.img)}"
            alt="${esc(card.name)}"
-           onerror="this.src='${esc(card.img)}'">
+           onerror="this.onerror=null;this.src='images/placeholder.svg'">
 
       <h2 class="modal-title">${esc(card.name)} <span class="modal-rarity-tag ${RARITY_CLASS[card.rarity]||'badge-ir'}">${card.rarity||'IR'}</span></h2>
 
@@ -441,6 +463,16 @@
       document.querySelectorAll('.gen-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentGen = btn.dataset.gen;
+      renderAll();
+    });
+  });
+
+  // Rarity filter
+  document.querySelectorAll('.rarity-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.rarity-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentRarity = btn.dataset.rarity;
       renderAll();
     });
   });

@@ -207,6 +207,54 @@ body {
 .gen-btn.active .gen-label { color: rgba(255,222,0,0.7); }
 .gen-btn:hover .gen-label { color: var(--text-sub); }
 
+/* Rarity filter */
+.rarity-filter-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.rarity-filter-bar::-webkit-scrollbar { display: none; }
+
+.rarity-filter-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  gap: 4px;
+  align-items: stretch;
+  min-width: max-content;
+}
+
+.rarity-btn {
+  background: none;
+  border: none;
+  color: var(--text-sub);
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color var(--transition), border-color var(--transition);
+  letter-spacing: 0.03em;
+}
+.rarity-btn:hover { color: var(--text); }
+.rarity-btn.active[data-rarity="all"]  { color: var(--text);    border-bottom-color: var(--text); }
+.rarity-btn.active[data-rarity="IR"]   { color: #ffde00;        border-bottom-color: #ffde00; }
+.rarity-btn.active[data-rarity="SIR"]  { color: #9d4edd;        border-bottom-color: #9d4edd; }
+.rarity-btn.active[data-rarity="UR"]   { color: #fb923c;        border-bottom-color: #fb923c; }
+.rarity-btn.active[data-rarity="RU"]   { color: #818cf8;        border-bottom-color: #818cf8; }
+.rarity-btn.active[data-rarity="RR"]   { color: #f472b6;        border-bottom-color: #f472b6; }
+.rarity-btn.active[data-rarity="RS"]   { color: #eab308;        border-bottom-color: #eab308; }
+.rarity-btn.active[data-rarity="TG"]   { color: #4895ef;        border-bottom-color: #4895ef; }
+.rarity-btn.active[data-rarity="SR"]   { color: #4cc9a0;        border-bottom-color: #4cc9a0; }
+.rarity-btn.active[data-rarity="SUR"]  { color: #ff9f00;        border-bottom-color: #ff9f00; }
+.rarity-btn.active[data-rarity="HR"]   { color: #ec4899;        border-bottom-color: #ec4899; }
+.rarity-btn.active[data-rarity="ACE"]  { color: #06b6d4;        border-bottom-color: #06b6d4; }
+.rarity-btn.active[data-rarity="CC"]   { color: #e8d000;        border-bottom-color: #e8d000; }
+
 /* ============================================================
    Stats bar
    ============================================================ */
