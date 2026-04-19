@@ -71,12 +71,16 @@
 
   /* ── Init ── */
   function init() {
-    const totalCards = allPokemon.reduce((s, p) => s + p.cards.length, 0) + trainerCards.length;
-    const withIR = allPokemon.filter(p => p.cards.length > 0).length;
+    const allCards = allPokemon.flatMap(p => p.cards).concat(trainerCards);
+    const byTag = { IR: 0, SIR: 0, TG: 0 };
+    allCards.forEach(c => { byTag[c.rarity] = (byTag[c.rarity] || 0) + 1; });
+    const withCards = allPokemon.filter(p => p.cards.length > 0).length;
     statsText.innerHTML = `
-      <strong>${totalCards.toLocaleString('de')}</strong> Illustration Rare Karten ·
-      <strong>${withIR.toLocaleString('de')}</strong> von ${allPokemon.length.toLocaleString('de')} Pokémon haben IRs ·
-      <strong>${trainerCards.length}</strong> Trainer-Karten
+      <strong>${allCards.length.toLocaleString('de')}</strong> Karten ·
+      <span class="stat-ir">IR: ${byTag.IR}</span> ·
+      <span class="stat-sir">SIR: ${byTag.SIR}</span> ·
+      <span class="stat-tg">TG: ${byTag.TG}</span> ·
+      <strong>${withCards}</strong> von ${allPokemon.length} Pokémon
     `;
     renderAll();
   }
@@ -120,17 +124,22 @@
     return norm(card.name).includes(norm(q));
   }
 
+  /* ── Rarity badge label ── */
+  const RARITY_LABEL = { IR: 'IR', SIR: 'SIR', TG: 'TG' };
+  const RARITY_CLASS = { IR: 'badge-ir', SIR: 'badge-sir', TG: 'badge-tg' };
+
   /* ── Build IR thumbnail HTML ── */
-  function buildIRThumb(card, size = '') {
-    const imgSize = size === 'small' ? 60 : 70;
+  function buildIRThumb(card) {
+    const tag = card.rarity || 'IR';
     return `
       <div class="ir-thumb" data-card-id="${esc(card.id)}"
-           title="${esc(card.name)} · ${esc(card.set_de)}">
+           title="${esc(card.name)} · ${esc(card.set_de)} [${tag}]">
         <img src="${esc(card.img)}"
              alt="${esc(card.name)}"
              loading="lazy"
-             width="${imgSize}"
+             width="70"
              onerror="this.onerror=null;this.src='images/placeholder.svg'">
+        <span class="ir-rarity-badge ${RARITY_CLASS[tag] || 'badge-ir'}">${tag}</span>
         <span class="ir-set-badge">${esc(card.set_de)}</span>
       </div>`;
   }
@@ -336,7 +345,7 @@
            alt="${esc(card.name)}"
            onerror="this.src='${esc(card.img)}'">
 
-      <h2 class="modal-title">${esc(card.name)}</h2>
+      <h2 class="modal-title">${esc(card.name)} <span class="modal-rarity-tag ${RARITY_CLASS[card.rarity]||'badge-ir'}">${card.rarity||'IR'}</span></h2>
 
       <div class="modal-details">
         ${pokeName ? `

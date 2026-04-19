@@ -210,6 +210,21 @@ body {
 /* ============================================================
    Stats bar
    ============================================================ */
+#statsText .stat-ir  { color: #ffde00; font-weight: 600; }
+#statsText .stat-sir { color: #9d4edd; font-weight: 600; }
+#statsText .stat-tg  { color: #4895ef; font-weight: 600; }
+
+.modal-rarity-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  vertical-align: middle;
+  margin-left: 6px;
+  letter-spacing: 0.05em;
+}
+
 .stats-bar {
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
@@ -464,6 +479,23 @@ details[open] > .gen-summary .gen-arrow {
   object-fit: cover;
   border-radius: var(--radius-sm);
 }
+
+.ir-thumb .ir-rarity-badge {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-size: 0.48rem;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+  line-height: 1.4;
+}
+
+.badge-ir  { background: rgba(255,222,0,0.9);  color: #1a1200; }
+.badge-sir { background: rgba(157,78,221,0.9); color: #fff; }
+.badge-tg  { background: rgba(72,149,239,0.9); color: #fff; }
 
 .ir-thumb .ir-set-badge {
   position: absolute;
