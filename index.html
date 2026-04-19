@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Illustration Rare Finder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="19" stroke="#ffde00" stroke-width="2"/>
+          <path d="M1 20h38M20 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" stroke="#ffde00" stroke-width="2"/>
+          <circle cx="20" cy="20" r="4" fill="#ffde00"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>Illustration Rare</h1>
+        <span class="brand-sub">Pokémon Kartenfinder</span>
+      </div>
+    </div>
+
+    <div class="header-controls">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="searchInput" class="search-input"
+          placeholder="Pokémon suchen (DE / EN)…" autocomplete="off" spellcheck="false">
+        <button class="search-clear" id="searchClear" aria-label="Suche löschen">×</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generation filter -->
+  <div class="gen-filter-bar">
+    <div class="gen-filter-inner">
+      <button class="gen-btn active" data-gen="all">Alle</button>
+      <button class="gen-btn" data-gen="1">Gen I<span class="gen-label">Kanto</span></button>
+      <button class="gen-btn" data-gen="2">Gen II<span class="gen-label">Johto</span></button>
+      <button class="gen-btn" data-gen="3">Gen III<span class="gen-label">Hoenn</span></button>
+      <button class="gen-btn" data-gen="4">Gen IV<span class="gen-label">Sinnoh</span></button>
+      <button class="gen-btn" data-gen="5">Gen V<span class="gen-label">Einall</span></button>
+      <button class="gen-btn" data-gen="6">Gen VI<span class="gen-label">Kalos</span></button>
+      <button class="gen-btn" data-gen="7">Gen VII<span class="gen-label">Alola</span></button>
+      <button class="gen-btn" data-gen="8">Gen VIII<span class="gen-label">Galar</span></button>
+      <button class="gen-btn" data-gen="9">Gen IX<span class="gen-label">Paldea</span></button>
+      <button class="gen-btn" data-gen="trainer">Trainer-Karten</button>
+    </div>
+  </div>
+</header>
+
+<!-- Stats bar -->
+<div class="stats-bar" id="statsBar">
+  <span id="statsText">Lade Daten…</span>
+</div>
+
+<!-- Main content -->
+<main id="mainContent" class="main-content">
+  <div class="loading-state" id="loadingState">
+    <div class="pokeball-loader">
+      <div class="pokeball">
+        <div class="pokeball-top"></div>
+        <div class="pokeball-bottom"></div>
+        <div class="pokeball-stripe"></div>
+        <div class="pokeball-center"></div>
+      </div>
+    </div>
+    <p>Lade Kartendaten…</p>
+  </div>
+</main>
+
+<!-- Card Detail Modal -->
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal">
+    <button class="modal-close" id="modalClose" aria-label="Schließen">×</button>
+    <div class="modal-inner" id="modalInner">
+      <!-- filled by JS -->
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
