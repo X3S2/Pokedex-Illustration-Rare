@@ -36,16 +36,6 @@
   };
 
   /* ── Placeholder SVG ── */
-  const PLACEHOLDER_SVG = `
-    <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg">
-      <rect width="100" height="140" rx="8" fill="#1e2330"/>
-      <rect x="4" y="4" width="92" height="132" rx="6" fill="none" stroke="#2e3448" stroke-width="1.5"/>
-      <circle cx="50" cy="60" r="22" fill="none" stroke="#2e3448" stroke-width="2"/>
-      <path d="M28 60h44M50 38v14M50 68v14" stroke="#2e3448" stroke-width="2"/>
-      <circle cx="50" cy="60" r="8" fill="#2e3448"/>
-      <circle cx="50" cy="60" r="4" fill="#1e2330"/>
-      <text x="50" y="115" text-anchor="middle" fill="#555d75" font-size="9" font-family="system-ui">Kein IR</text>
-    </svg>`;
 
   /* ── Load data ── */
   async function loadData() {
@@ -157,13 +147,13 @@
   /* ── Build placeholder HTML ── */
   function buildPlaceholder() {
     return `
-      <div class="ir-placeholder" title="Kein Illustration Rare verfügbar">
+      <div class="ir-placeholder" title="Keine Karten verfügbar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="3" width="18" height="18" rx="2"/>
           <path d="M3 9h18M9 21V9"/>
           <circle cx="16" cy="16" r="2" stroke-dasharray="3 2"/>
         </svg>
-        <span>Kein IR verfügbar</span>
+        <span>Keine Karten</span>
       </div>`;
   }
 
@@ -238,7 +228,7 @@
       if (currentRarity !== 'all' && visibleByRarity.length === 0) return;
 
       const genInfo = GEN_COLORS[gen.id] || { cls: 'gen-1', name: '' };
-      const withIRCount = pokemonInGen.filter(p => p.cards.length > 0).length;
+      const withCardsCount = pokemonInGen.filter(p => p.cards.length > 0).length;
       const matchCount = visible.length;
 
       const section = document.createElement('details');
@@ -246,9 +236,17 @@
       section.id = `gen-${gen.id}`;
       if (!query || visible.length > 0) section.open = (genFilter !== 'all');
 
-      const visLabel = query
-        ? `${matchCount} Treffer / ${visibleByRarity.length} Pokémon · ${withIRCount} mit IR`
-        : `${visibleByRarity.length} Pokémon · ${withIRCount} mit IR`;
+      let visLabel;
+      if (currentRarity === 'all') {
+        visLabel = query
+          ? `${matchCount} Treffer / ${pokemonInGen.length} Pokémon · ${withCardsCount} mit Karten`
+          : `${pokemonInGen.length} Pokémon · ${withCardsCount} mit Karten`;
+      } else {
+        const rarityLabel = RARITY_LABEL[currentRarity] || currentRarity;
+        visLabel = query
+          ? `${matchCount} Treffer / ${visibleByRarity.length} mit ${rarityLabel}`
+          : `${visibleByRarity.length} mit ${rarityLabel}`;
+      }
 
       section.innerHTML = `
         <summary class="gen-summary">
