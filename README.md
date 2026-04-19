@@ -29,12 +29,13 @@ Eine persönliche Referenzseite für Pokémon Sammelkartenspiel-Karten mit küns
 | RD | Radiant Rare | 15 |
 | RSH | Rare Shining | 16 |
 | SHG | Shiny GX (Hidden Fates) | 35 |
-| **Gesamt** | | **2877** |
+| Promo | Black Star Promos (ex/V/GX) | 275 |
+| **Gesamt** | | **3152** |
 
 ## Daten
-- **719 von 1025 Pokémon** haben mindestens eine Karte
-- **832 Trainer-Karten** als eigene Kategorie
-- 306 Pokémon haben keine künstlerische Karte (nur Common/Uncommon im TCG)
+- **724 von 1025 Pokémon** haben mindestens eine Karte
+- **837 Trainer-Karten** als eigene Kategorie
+- 301 Pokémon haben keine künstlerische Karte (nur Common/Uncommon im TCG)
 
 ## Verwendete APIs
 - [Pokémon TCG API](https://pokemontcg.io/) – Kartendaten und Bilder
