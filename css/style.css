@@ -209,8 +209,7 @@ body {
 
 /* Rarity filter */
 .rarity-filter-bar {
-  background: var(--bg2);
-  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
   overflow-x: auto;
   scrollbar-width: none;
 }
