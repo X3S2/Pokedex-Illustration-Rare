@@ -30,7 +30,8 @@ Eine persönliche Referenzseite für Pokémon Sammelkartenspiel-Karten mit küns
 | RSH | Rare Shining | 16 |
 | SHG | Shiny GX (Hidden Fates) | 35 |
 | Promo | Black Star Promos (ex/V/GX) | 284 |
-| **Gesamt** | | **3161** |
+| BWR | Black White Rare | 4 |
+| **Gesamt** | | **3165** |
 
 ## Daten
 - **724 von 1025 Pokémon** haben mindestens eine Karte

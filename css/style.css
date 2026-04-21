@@ -258,6 +258,7 @@ body {
 .rarity-btn.active[data-rarity="RSH"]  { color: #a78bfa;        border-bottom-color: #a78bfa; }
 .rarity-btn.active[data-rarity="SHG"]  { color: #2dd4bf;        border-bottom-color: #2dd4bf; }
 .rarity-btn.active[data-rarity="PRX"]  { color: #ef4444;        border-bottom-color: #ef4444; }
+.rarity-btn.active[data-rarity="BWR"]  { color: #1a1a2e;        border-bottom-color: #1a1a2e; }
 
 /* ============================================================
    Stats bar
@@ -279,6 +280,7 @@ body {
 #statsText .stat-rsh { color: #a78bfa; font-weight: 600; }
 #statsText .stat-shg { color: #2dd4bf; font-weight: 600; }
 #statsText .stat-prx { color: #ef4444; font-weight: 600; }
+#statsText .stat-bwr { color: #1a1a2e; font-weight: 600; }
 
 .modal-rarity-tag {
   display: inline-block;
@@ -577,6 +579,7 @@ details[open] > .gen-summary .gen-arrow {
 .badge-rsh { background: rgba(167,139,250,0.9); color: #fff; }
 .badge-shg { background: rgba(45,212,191,0.9); color: #0a1f1e; }
 .badge-prx { background: rgba(239,68,68,0.9);  color: #fff; }
+.badge-bwr { background: linear-gradient(135deg, #1a1a2e 50%, #fff 50%); color: #ffd700; font-weight: 700; border: 1px solid #555; }
 
 .ir-thumb .ir-set-badge {
   position: absolute;
