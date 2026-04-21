@@ -31,7 +31,8 @@ Eine persönliche Referenzseite für Pokémon Sammelkartenspiel-Karten mit küns
 | SHG | Shiny GX (Hidden Fates) | 35 |
 | Promo | Black Star Promos (ex/V/GX) | 284 |
 | BWR | Black White Rare | 4 |
-| **Gesamt** | | **3165** |
+| MAR | Mega Attack Rare | 7 |
+| **Gesamt** | | **3172** |
 
 ## Daten
 - **724 von 1025 Pokémon** haben mindestens eine Karte

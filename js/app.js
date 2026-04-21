@@ -63,7 +63,7 @@
   /* ── Init ── */
   function init() {
     const allCards = allPokemon.flatMap(p => p.cards).concat(trainerCards);
-    const byTag = { IR: 0, SIR: 0, TG: 0, SR: 0, SUR: 0, CC: 0, UR: 0, HR: 0, ACE: 0, RU: 0, RR: 0, RS: 0, AR: 0, RD: 0, RSH: 0, SHG: 0, PRX: 0, BWR: 0 };
+    const byTag = { IR: 0, SIR: 0, TG: 0, SR: 0, SUR: 0, CC: 0, UR: 0, HR: 0, ACE: 0, RU: 0, RR: 0, RS: 0, AR: 0, RD: 0, RSH: 0, SHG: 0, PRX: 0, BWR: 0, MAR: 0 };
     allCards.forEach(c => { byTag[c.rarity] = (byTag[c.rarity] || 0) + 1; });
     const withCards = allPokemon.filter(p => p.cards.length > 0).length;
     statsText.innerHTML = `
@@ -86,6 +86,7 @@
       <span class="stat-shg">SHG: ${byTag.SHG}</span> ·
       <span class="stat-prx">Promo: ${byTag.PRX}</span> ·
       <span class="stat-bwr">BWR: ${byTag.BWR}</span> ·
+      <span class="stat-mar">MAR: ${byTag.MAR}</span> ·
       <strong>${withCards}</strong> von ${allPokemon.length} Pokémon
     `;
     renderAll();
@@ -131,8 +132,8 @@
   }
 
   /* ── Rarity badge label ── */
-  const RARITY_LABEL = { IR: 'IR', SIR: 'SIR', TG: 'TG', SR: 'SR', SUR: 'SUR', CC: 'CC', UR: 'UR', HR: 'HR', ACE: 'ACE', RU: 'FA', RR: 'RR', RS: 'Secret', AR: 'AR', RD: 'RD', RSH: 'RSH', SHG: 'SHG', PRX: 'Promo', BWR: 'BWR' };
-  const RARITY_CLASS = { IR: 'badge-ir', SIR: 'badge-sir', TG: 'badge-tg', SR: 'badge-sr', SUR: 'badge-sur', CC: 'badge-cc', UR: 'badge-ur', HR: 'badge-hr', ACE: 'badge-ace', RU: 'badge-ru', RR: 'badge-rr', RS: 'badge-rs', AR: 'badge-ar', RD: 'badge-rd', RSH: 'badge-rsh', SHG: 'badge-shg', PRX: 'badge-prx', BWR: 'badge-bwr' };
+  const RARITY_LABEL = { IR: 'IR', SIR: 'SIR', TG: 'TG', SR: 'SR', SUR: 'SUR', CC: 'CC', UR: 'UR', HR: 'HR', ACE: 'ACE', RU: 'FA', RR: 'RR', RS: 'Secret', AR: 'AR', RD: 'RD', RSH: 'RSH', SHG: 'SHG', PRX: 'Promo', BWR: 'BWR', MAR: 'MAR' };
+  const RARITY_CLASS = { IR: 'badge-ir', SIR: 'badge-sir', TG: 'badge-tg', SR: 'badge-sr', SUR: 'badge-sur', CC: 'badge-cc', UR: 'badge-ur', HR: 'badge-hr', ACE: 'badge-ace', RU: 'badge-ru', RR: 'badge-rr', RS: 'badge-rs', AR: 'badge-ar', RD: 'badge-rd', RSH: 'badge-rsh', SHG: 'badge-shg', PRX: 'badge-prx', BWR: 'badge-bwr', MAR: 'badge-mar' };
 
   /* ── Build IR thumbnail HTML ── */
   function buildIRThumb(card) {
